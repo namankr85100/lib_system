@@ -1,10 +1,123 @@
 import * as ActionTypes from './ActionTypes';
 import {baseUrl} from '../baseUrl'
 
+export const studentIssuedBookAction = (data) => ({
+  type: ActionTypes.STUDENT_ISSUED,
+  payload: data
+})
+
 export const addBook = (book) => ({
   type: ActionTypes.ADD_BOOK,
   payload: book
 });
+
+
+export const fetchStudentIssuedBooks = (dispatch) => {
+  dispatch(booksLoading(true))
+  // return fetch(baseU)
+  // const fetch()
+  // TODO: fetch from api
+  const data =  [
+    {
+    _id: '622cfdfda38f5aa526830f05',
+    name: 'nasd',
+    author: 'ddqw',
+    description: 'ee',
+    isbn: '123123123123',
+    cat: 'Computer Science',
+    copies: 2,
+    shelf: 2,
+    floor: 4,
+    createdAt: '2022-03-12T20:09:33.699Z',
+    updatedAt: '2022-03-12T20:09:33.699Z',
+    __v: 0
+  },
+  {
+    _id: '622caba5eff09107826bbc83',
+    name: 'phenecipian',
+    author: 'nostradamus',
+    description: 'this book on prediction.',
+    isbn: '2131312123131',
+    cat: 'Other',
+    copies: 10,
+    shelf: 34,
+    floor: 1,
+    createdAt: '2022-03-12T14:18:13.988Z',
+    updatedAt: '2022-03-12T14:24:52.493Z',
+    __v: 0
+  },
+]
+  return dispatch(postStudentBookToFriend(data));
+}
+
+export const postStudentBookToFriend = (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch) => {
+ /**
+  const newStudentBook = {
+    name: name,
+    author: author,
+    cat: cat,
+    copies: copies,
+    // rest of these two i have to create api
+    friend:friend,
+    issue_type: issue_type,
+    description: description,
+    isbn: isbn,
+  }
+  const bearer = 'Bearer ' + localStorage.getItem('token');
+  return fetch(baseUrl + 'student/friend', {
+    method: "POST",
+    body: JSON.stringify(newStudentBook),
+    headers: {
+      'Content-Type': "application/json",
+      "Authorization":  bearer
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response;
+    } else {
+      const error = new Error('Error' +response.status+ ': '+ response.statusText)
+      error.response = response;
+      throw error;
+    }
+  }).then(response => response.json())
+  .then(response => {alert('Book added successfully')
+  return dispatch(addBook(response));
+}).catch(()=>{
+  return {
+    _id: '622cfdfda38f5aa526830f06',
+    name: 'student',
+    author: 'student',
+    description: 'ee',
+    isbn: '12312312s3123',
+    cat: 'Computer Science',
+    copies: 2,
+    friend: 'naman',
+    issue_type: 'sell',
+    createdAt: '2022-03-12T20:09:33.699Z',
+    updatedAt: '2022-03-12T20:09:33.699Z',
+    __v: 0
+  }
+})
+**/
+const returnData =  {
+  _id: '622cfdfda38f5aa526830f06',
+  name: 'student',
+  author: 'student',
+  description: 'ee',
+  isbn: '12312312s3123',
+  cat: 'Computer Science',
+  copies: 2,
+  friend: 'naman',
+  issue_type: 'sell',
+  createdAt: '2022-03-12T20:09:33.699Z',
+  updatedAt: '2022-03-12T20:09:33.699Z',
+  __v: 0
+};
+return dispatch(studentIssuedBookAction(returnData))
+
+};
+
 
 export const postBook = (name, author, description, isbn, cat, floor, shelf, copies) => (dispatch) => {
     const newBook = {

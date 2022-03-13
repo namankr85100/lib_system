@@ -14,12 +14,16 @@ import UserDetail from './UserDetailComponent.js';
 import Stats from './StatsComponent.js';
 import Log from './LogComponent.js';
 import UserList from './UserListComponent.js';
+import StudentBook from './StudentBookComponent.js';
+import StudentBookDetail from './StudentBookDetailsComponent.js';
 
 import {Switch,Route,Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Modal,ModalBody,ModalHeader,Button, Label, Col, Row} from 'reactstrap';
 import { postBook, fetchBooks, editBook, deleteBook,loginUser, logoutUser, 
-  registerUser, editUser, editPassword, postIssue, returnIssue, fetchIssues, fetchUsers} from '../redux/ActionCreators';
+  registerUser, editUser, editPassword, postIssue, returnIssue, fetchIssues, fetchUsers,
+postStudentBookToFriend,
+} from '../redux/ActionCreators';
 import { Control, LocalForm, Errors  } from 'react-redux-form';
 
 const required = (val) => val && val.length;
@@ -35,7 +39,8 @@ const mapStateToProps= (state)=>{
     books: state.books,
     auth: state.auth,
     issues: state.issues,
-    users: state.users
+    users: state.users,
+    student: state.student
   };
 }
 
@@ -52,7 +57,9 @@ const mapDispatchToProps = dispatch => ({
   editUser: (_id, firstname, lastname, roll, email) => dispatch(editUser(_id, firstname, lastname, roll, email)),
   editPassword : (_id,username,password) => dispatch(editPassword(_id,username,password)),
   postIssue: (bookId,studentId) => (dispatch(postIssue(bookId,studentId))),
-  returnIssue: (issueId) => (dispatch(returnIssue(issueId)))
+  returnIssue: (issueId) => (dispatch(returnIssue(issueId))),
+  // added student post book
+  studentIssuedPostBook: (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch(postStudentBookToFriend(name, author, description, isbn, cat, copies, friend, issue_type)))
 });
 
 class Main extends Component {
@@ -139,6 +146,17 @@ class Main extends Component {
               }} />
         )} />
       );
+      
+      const PrivateRouteStudent =  ({ component: Component, ...rest }) => (
+        <Route {...rest} render={(props) => (
+          this.props.auth.isAuthenticated
+            ? <Component {...props} />
+            : <Redirect to={{
+                pathname: '/home',
+                state: { from: props.location }
+              }} />
+        )} />
+      );
 
       const PrivateRouteAdmin = ({ component: Component, ...rest }) => (
         <Route {...rest} render={(props) => (
@@ -196,6 +214,7 @@ class Main extends Component {
                       toggleEditModal={this.toggleEditModal}
                       toggleDeleteModal={this.toggleDeleteModal}
                       changeSelected={this.changeSelected}/>}/>
+                      
                       <Route path='/books/:bookId' component={BookWithId} />
                       <PrivateRouteCommon exact path='/profile' component={() => <Profile
                       auth={this.props.auth}
@@ -210,7 +229,29 @@ class Main extends Component {
                       booksLoading={this.props.books.isLoading}
                       booksErrMess={this.props.books.errMess}
                       />
+                    }/>
+
+                      <PrivateRouteStudent exact path = '/student_book' component= {()=> <StudentBook
+                       isStudent={(this.props.auth.userinfo.admin?false:true)}
+                       studentIssuedPostBook={this.props.studentIssuedPostBook}
+                       books={this.props.books.books}
+                       booksLoading={this.props.books.isLoading}
+                       booksErrMess={this.props.books.errMess}
+                      />
                       }/>
+
+
+                      {/* TODO: build fetchIssuedBooks by student to student */}
+                      <PrivateRouteStudent exact path = '/issued_books' component= {()=> <StudentBookDetail
+                       books={this.props.student.issuedBooks}
+                      //  isStudent={(this.props.auth.userinfo.admin?false:true)}
+                      isStudent={true}
+                       toggleEditModal={this.toggleEditModal}
+                       changeSelected={this.changeSelected}
+                      />
+                      }/>
+                     
+
                       <PrivateRoute exact path='/profile' component={() => <Profile
                       auth={this.props.auth}
                       editUser={this.props.editUser} />}

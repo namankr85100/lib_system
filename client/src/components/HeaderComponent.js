@@ -112,11 +112,24 @@ class Header extends Component{
                           </Dropdown>
                           </NavItem>
                         ):(
-                            <NavItem className="ml-2" onClick={this.toggleNav}>
-                                  <NavLink className="nav-link text-primary" to="/books">
+                            <NavItem className="">
+                            <Dropdown  isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                            <DropdownToggle color="Primary" >
+                            <div className="text-primary">
                                                     <span className="fa fa-book fa-lg"/> Books
-                                                </NavLink>
-                              </NavItem>
+                                                   &nbsp; <i className="fa fa-caret-down fa-sm" aria-hidden="true"></i>
+
+                                                </div>
+                            </DropdownToggle>
+                            <DropdownMenu>
+                              <DropdownItem onClick={this.toggleNav} tag={Link} to="/books">My books</DropdownItem>
+                              <DropdownItem divider/>
+                              <DropdownItem onClick={this.toggleNav} tag={Link} to="/student_book" >Issue My book</DropdownItem>
+                              <DropdownItem divider/>
+                              <DropdownItem onClick={this.toggleNav} tag={Link} to="/issued_books" >List issued Books</DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                          </NavItem>
     
                         )}
                         

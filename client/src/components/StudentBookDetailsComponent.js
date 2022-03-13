@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
 import {Row,Col, Card, CardText, CardHeader, CardFooter, CardBody,CardTitle } from 'reactstrap';
 import Loading from './LoadingComponent';
-function RenderBook({book,isAdmin,toggleEditModal,changeSelected}) {
+function RenderBook({book,isStudent,toggleEditModal,changeSelected}) {
     if (book != null)
         return(
         <Card>
        
        <CardHeader tag="h3">{book.name} &nbsp; &nbsp; &nbsp;&nbsp;
-       {isAdmin?(<span className="fa fa-pencil Option" onClick={()=>{changeSelected(book._id);toggleEditModal();}}/>):(<React.Fragment/>)}
+       {isStudent?(<span className="fa fa-pencil Option" onClick={()=>{changeSelected(book._id);toggleEditModal();}}/>):(<React.Fragment/>)}
         </CardHeader>
         <CardBody>
           <CardTitle align="right"> - {book.author}</CardTitle>
@@ -15,10 +15,9 @@ function RenderBook({book,isAdmin,toggleEditModal,changeSelected}) {
               <b> Category: </b> {book.cat} <br/><br/>
               <b> ISBN number: </b> {book.isbn} <br/><br/>
               <b>Description: </b><br/> {book.description} <br/><br/>
-              <b> Location: </b> <br/>Shelf no. {book.shelf} ,<br/>
-              {book.floor===0?' Ground ':book.floor}{(book.floor===1)?'st ':(book.floor===2)?'nd ':(book.floor===3)?'rd ':(book.floor===0)?'':'th '}
-              Floor <br/><br/>
              <b> Copies available : </b> {book.copies}
+             <b> friend name : </b> {book.friend}
+             <b> issue type : </b> {book.issue_type}
       </CardText><br/>
         </CardBody>
         <CardFooter className="text-muted">
@@ -79,10 +78,10 @@ else
         <div className="row heading">
           <div className="col-12">
           <br/>        <br/>
-          <RenderBook book={this.props.book} isAdmin={this.props.isAdmin}
+          <RenderBook book={this.props.books} isStudent={this.props.isStudent}
                     toggleEditModal={this.props.toggleEditModal}
                     changeSelected={this.props.changeSelected}>
-              </RenderBook>
+          </RenderBook>
 
         <br/>
           </div>

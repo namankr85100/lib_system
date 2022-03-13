@@ -35,7 +35,7 @@ const Books = (state = { isLoading: true,
         var resp = action.payload;
         return { ...state, books: state.books.filter((book)=>{
             return book._id!==resp._id}) }
-
+    
         default:
             return state;
     }

@@ -4,6 +4,7 @@ import  Books  from './books.js';
 import Auth from './auth.js';
 import Issues from './issues.js';
 import Users from './users.js'
+import Student from './student.js';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const ConfigureStore = ()=>{
@@ -12,7 +13,8 @@ export const ConfigureStore = ()=>{
             books: Books,
             auth: Auth,
             issues: Issues,
-            users: Users
+            users: Users,
+            student: Student,
         }),
         composeEnhancers(applyMiddleware(thunk))
     );
