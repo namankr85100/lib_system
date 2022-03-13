@@ -1,13 +1,12 @@
 import React,{Component} from 'react';
 import {Row,Col, Card, CardText, CardHeader, CardFooter, CardBody,CardTitle } from 'reactstrap';
 import Loading from './LoadingComponent';
-function RenderBook({book,isStudent,toggleEditModal,changeSelected}) {
+function RenderBook({book,isStudent}) {
     if (book != null)
         return(
         <Card>
        
        <CardHeader tag="h3">{book.name} &nbsp; &nbsp; &nbsp;&nbsp;
-       {isStudent?(<span className="fa fa-pencil Option" onClick={()=>{changeSelected(book._id);toggleEditModal();}}/>):(<React.Fragment/>)}
         </CardHeader>
         <CardBody>
           <CardTitle align="right"> - {book.author}</CardTitle>
@@ -23,10 +22,10 @@ function RenderBook({book,isStudent,toggleEditModal,changeSelected}) {
         <CardFooter className="text-muted">
         <Row>
         <Col md={6}>
-        Created at : {new Intl.DateTimeFormat('en-US',{year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric',minute: 'numeric', hour12: true }).format(new Date( Date.parse(book.createdAt)))}    
+        {/* Created at : {new Intl.DateTimeFormat('en-US',{year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric',minute: 'numeric', hour12: true }).format(new Date( Date.parse(book.createdAt)))}     */}
         </Col>
         <Col md={6}>
-        Last updated at : {new Intl.DateTimeFormat('en-US',{year: 'numeric', month: 'short', day: '2-digit',hour: 'numeric',minute: 'numeric', hour12: true}).format(new Date( Date.parse(book.updatedAt)))} 
+        {/* Last updated at : {new Intl.DateTimeFormat('en-US',{year: 'numeric', month: 'short', day: '2-digit',hour: 'numeric',minute: 'numeric', hour12: true}).format(new Date( Date.parse(book.updatedAt)))}  */}
         </Col>
         </Row>
         </CardFooter>
@@ -39,7 +38,7 @@ function RenderBook({book,isStudent,toggleEditModal,changeSelected}) {
         }
 
 
-class BookDetail extends Component {
+class StudentBookDetail extends Component {
 
     constructor(props){
         super(props);
@@ -78,10 +77,13 @@ else
         <div className="row heading">
           <div className="col-12">
           <br/>        <br/>
-          <RenderBook book={this.props.books} isStudent={this.props.isStudent}
-                    toggleEditModal={this.props.toggleEditModal}
-                    changeSelected={this.props.changeSelected}>
-          </RenderBook>
+          {
+              this.props.books.map((book)=>{
+                  return <RenderBook book={book} />
+
+              })
+          }
+          
 
         <br/>
           </div>
@@ -92,4 +94,4 @@ else
 
 }
 
-export default BookDetail;
+export default StudentBookDetail;

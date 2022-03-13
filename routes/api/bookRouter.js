@@ -5,7 +5,52 @@ const bookRouter = express.Router();
 const authenticate=require('../../authenticate');
 const cors = require('../cors');
 const Books=require('../../models/books');
+const Student = require('../../models/student');
 bookRouter.use(bodyParser.json());
+
+
+/**
+ * Api for student advanced option
+ */
+ bookRouter.route('/student-book')
+ .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); 
+     res.setHeader('Access-Control-Allow-Credentials', 'true')})
+ .post(cors.corsWithOptions, (req, res, next)=> {
+     Student.create(req.body)
+     .then((book)=>{
+         res.statusCode = 200;
+         res.json(book);
+     })
+     .catch((err)=>{next(err)})
+ })
+ .get(cors.corsWithOptions,(req, res, next)=> {
+     // get all for admin purpose
+     Student.find({})
+     .then((resp)=>{
+         res.statusCode = 200;
+         res.json(resp);
+     })
+     .catch((err)=>{next(err)})
+ })
+ 
+ bookRouter.route('/issued-by-friend/:username')
+ .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); 
+     res.setHeader('Access-Control-Allow-Credentials', 'true')}) 
+ .get(cors.corsWithOptions,authenticate.verifyUser,(req, res, next)=> {
+     // get all for admin purpose
+     const userName = req.params.username;
+     Student.find({
+         friend: userName, 
+     })
+     .then((resp)=>{
+         res.statusCode = 200;
+         res.setHeader('Content-Type', 'application-json');
+         res.json(resp);
+     })
+     .catch((err)=>{next(err)})
+ })
+  
+
 
 bookRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
@@ -85,5 +130,8 @@ bookRouter.route('/:bookId')
     }, (err) => next(err))
     .catch((err) =>  res.status(400).json({success: false}));
 });
+
+
+
 
 module.exports = bookRouter;

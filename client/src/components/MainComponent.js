@@ -15,7 +15,7 @@ import Stats from './StatsComponent.js';
 import Log from './LogComponent.js';
 import UserList from './UserListComponent.js';
 import StudentBook from './StudentBookComponent.js';
-import StudentBookDetail from './StudentBookDetailsComponent.js';
+import StudentBookDetails from './StudentBookDetailsComponent.js';
 
 import {Switch,Route,Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -23,6 +23,7 @@ import {Modal,ModalBody,ModalHeader,Button, Label, Col, Row} from 'reactstrap';
 import { postBook, fetchBooks, editBook, deleteBook,loginUser, logoutUser, 
   registerUser, editUser, editPassword, postIssue, returnIssue, fetchIssues, fetchUsers,
 postStudentBookToFriend,
+fetchStudentIssuedBooks
 } from '../redux/ActionCreators';
 import { Control, LocalForm, Errors  } from 'react-redux-form';
 
@@ -40,7 +41,7 @@ const mapStateToProps= (state)=>{
     auth: state.auth,
     issues: state.issues,
     users: state.users,
-    student: state.student
+    student: state.student,
   };
 }
 
@@ -59,13 +60,15 @@ const mapDispatchToProps = dispatch => ({
   postIssue: (bookId,studentId) => (dispatch(postIssue(bookId,studentId))),
   returnIssue: (issueId) => (dispatch(returnIssue(issueId))),
   // added student post book
-  studentIssuedPostBook: (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch(postStudentBookToFriend(name, author, description, isbn, cat, copies, friend, issue_type)))
+  studentIssuedPostBook: (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch(postStudentBookToFriend(name, author, description, isbn, cat, copies, friend, issue_type))),
+  fetchStudentIssuedBooks: () => {dispatch(fetchStudentIssuedBooks())},
 });
 
 class Main extends Component {
   
   componentDidMount() {
     this.props.fetchBooks();
+    this.props.fetchStudentIssuedBooks();
     if(this.props.auth.isAuthenticated){
       this.props.fetchIssues(!this.props.auth.userinfo.admin);
     }
@@ -232,9 +235,8 @@ class Main extends Component {
                     }/>
 
                       <PrivateRouteStudent exact path = '/student_book' component= {()=> <StudentBook
-                       isStudent={(this.props.auth.userinfo.admin?false:true)}
                        studentIssuedPostBook={this.props.studentIssuedPostBook}
-                       books={this.props.books.books}
+                       books={this.props.student.issuedBooks}
                        booksLoading={this.props.books.isLoading}
                        booksErrMess={this.props.books.errMess}
                       />
@@ -242,14 +244,10 @@ class Main extends Component {
 
 
                       {/* TODO: build fetchIssuedBooks by student to student */}
-                      <PrivateRouteStudent exact path = '/issued_books' component= {()=> <StudentBookDetail
-                       books={this.props.student.issuedBooks}
-                      //  isStudent={(this.props.auth.userinfo.admin?false:true)}
-                      isStudent={true}
-                       toggleEditModal={this.toggleEditModal}
-                       changeSelected={this.changeSelected}
+                      <PrivateRouteStudent exact path = '/issued_books' component= {()=> <StudentBookDetails
+                       books={this.props.books.books}
+                      />}
                       />
-                      }/>
                      
 
                       <PrivateRoute exact path='/profile' component={() => <Profile

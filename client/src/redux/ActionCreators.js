@@ -6,65 +6,52 @@ export const studentIssuedBookAction = (data) => ({
   payload: data
 })
 
+export const fetchStudentIssuedBooksAction = (data) => ({
+  type: ActionTypes.FETCH_STUDENT_ISSUED,
+  data: data,
+})
+
 export const addBook = (book) => ({
   type: ActionTypes.ADD_BOOK,
   payload: book
 });
 
 
-export const fetchStudentIssuedBooks = (dispatch) => {
-  dispatch(booksLoading(true))
-  // return fetch(baseU)
-  // const fetch()
-  // TODO: fetch from api
-  const data =  [
-    {
-    _id: '622cfdfda38f5aa526830f05',
-    name: 'nasd',
-    author: 'ddqw',
-    description: 'ee',
-    isbn: '123123123123',
-    cat: 'Computer Science',
-    copies: 2,
-    shelf: 2,
-    floor: 4,
-    createdAt: '2022-03-12T20:09:33.699Z',
-    updatedAt: '2022-03-12T20:09:33.699Z',
-    __v: 0
-  },
-  {
-    _id: '622caba5eff09107826bbc83',
-    name: 'phenecipian',
-    author: 'nostradamus',
-    description: 'this book on prediction.',
-    isbn: '2131312123131',
-    cat: 'Other',
-    copies: 10,
-    shelf: 34,
-    floor: 1,
-    createdAt: '2022-03-12T14:18:13.988Z',
-    updatedAt: '2022-03-12T14:24:52.493Z',
-    __v: 0
-  },
-]
-  return dispatch(postStudentBookToFriend(data));
-}
+export const fetchStudentIssuedBooks = () => (dispatch) => {
+  dispatch(booksLoading(true));
+  const bearer = 'Bearer ' + localStorage.getItem('token');
+  return fetch(baseUrl + 'books/student-book', {
+    method: "GET",
+    headers: {
+      'Content-Type': "application/json",
+      "Authorization": bearer
+    }
+  }).then((response) => {
+      const data =  response.json();
+      return data;
+    })
+    .then((response) => {
+      alert('Book fetched successfully '+response);
+      return dispatch(fetchStudentIssuedBooksAction(response));
+    }).catch((error) => {
+      alert('Your book could not be fetched\nError: ' + error.message);
+    });
+};
 
 export const postStudentBookToFriend = (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch) => {
- /**
+ 
   const newStudentBook = {
     name: name,
     author: author,
     cat: cat,
     copies: copies,
-    // rest of these two i have to create api
     friend:friend,
     issue_type: issue_type,
     description: description,
     isbn: isbn,
   }
   const bearer = 'Bearer ' + localStorage.getItem('token');
-  return fetch(baseUrl + 'student/friend', {
+  return fetch(baseUrl + 'books/student-book', {
     method: "POST",
     body: JSON.stringify(newStudentBook),
     headers: {
@@ -82,39 +69,11 @@ export const postStudentBookToFriend = (name, author, description, isbn, cat, co
     }
   }).then(response => response.json())
   .then(response => {alert('Book added successfully')
-  return dispatch(addBook(response));
-}).catch(()=>{
-  return {
-    _id: '622cfdfda38f5aa526830f06',
-    name: 'student',
-    author: 'student',
-    description: 'ee',
-    isbn: '12312312s3123',
-    cat: 'Computer Science',
-    copies: 2,
-    friend: 'naman',
-    issue_type: 'sell',
-    createdAt: '2022-03-12T20:09:33.699Z',
-    updatedAt: '2022-03-12T20:09:33.699Z',
-    __v: 0
-  }
-})
-**/
-const returnData =  {
-  _id: '622cfdfda38f5aa526830f06',
-  name: 'student',
-  author: 'student',
-  description: 'ee',
-  isbn: '12312312s3123',
-  cat: 'Computer Science',
-  copies: 2,
-  friend: 'naman',
-  issue_type: 'sell',
-  createdAt: '2022-03-12T20:09:33.699Z',
-  updatedAt: '2022-03-12T20:09:33.699Z',
-  __v: 0
-};
-return dispatch(studentIssuedBookAction(returnData))
+  return dispatch(studentIssuedBookAction(response));
+}).catch(error =>  { 
+  console.log(error)
+  alert('Your book could not be added\nError: '+error.message); 
+});
 
 };
 
