@@ -36,7 +36,7 @@ bookRouter.use(bodyParser.json());
  bookRouter.route('/issued-by-friend/:username')
  .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); 
      res.setHeader('Access-Control-Allow-Credentials', 'true')}) 
- .get(cors.corsWithOptions,authenticate.verifyUser,(req, res, next)=> {
+ .get(cors.corsWithOptions,(req, res, next)=> {
      // get all for admin purpose
      const userName = req.params.username;
      Student.find({
@@ -44,7 +44,6 @@ bookRouter.use(bodyParser.json());
      })
      .then((resp)=>{
          res.statusCode = 200;
-         res.setHeader('Content-Type', 'application-json');
          res.json(resp);
      })
      .catch((err)=>{next(err)})

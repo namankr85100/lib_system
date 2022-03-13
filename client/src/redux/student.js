@@ -5,6 +5,7 @@ const initialState = {
     errMess: null,
     studentsBooks: [],
     issuedBooks: [],
+    userBook: [],
 };
 
 const Student = (state = initialState, action) => {
@@ -24,7 +25,14 @@ const Student = (state = initialState, action) => {
                 errMess: null,
                 studentsBooks: action.payload,
             }
-            
+    
+        case ActionTypes.GET_ONLY_USER_BOOK: 
+            return {
+                ...state,
+                isLoading: false,
+                errMess: null,
+                userBook: action.payload,
+            }
         default: 
             return state
     }

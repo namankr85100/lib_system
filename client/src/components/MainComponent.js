@@ -23,7 +23,8 @@ import {Modal,ModalBody,ModalHeader,Button, Label, Col, Row} from 'reactstrap';
 import { postBook, fetchBooks, editBook, deleteBook,loginUser, logoutUser, 
   registerUser, editUser, editPassword, postIssue, returnIssue, fetchIssues, fetchUsers,
 postStudentBookToFriend,
-fetchStudentIssuedBooks
+fetchStudentIssuedBooks,
+getOnlyUserDataActionCreator,
 } from '../redux/ActionCreators';
 import { Control, LocalForm, Errors  } from 'react-redux-form';
 
@@ -62,6 +63,7 @@ const mapDispatchToProps = dispatch => ({
   // added student post book
   studentIssuedPostBook: (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch(postStudentBookToFriend(name, author, description, isbn, cat, copies, friend, issue_type))),
   fetchStudentIssuedBooks: () => {dispatch(fetchStudentIssuedBooks())},
+  getOnlyUserDataActionCreator: () => {dispatch(getOnlyUserDataActionCreator())}
 });
 
 class Main extends Component {
@@ -69,6 +71,7 @@ class Main extends Component {
   componentDidMount() {
     this.props.fetchBooks();
     this.props.fetchStudentIssuedBooks();
+    this.props.getOnlyUserDataActionCreator(this.props.auth.user.username)
     if(this.props.auth.isAuthenticated){
       this.props.fetchIssues(!this.props.auth.userinfo.admin);
     }
@@ -249,6 +252,11 @@ class Main extends Component {
                       />}
                       />
                      
+                       {/* TODO: build fetchIssuedBooks by student to student */}
+                       <PrivateRouteStudent exact path = '/issued_books_of_student' component= {()=> <StudentBookDetails
+                       books={this.props.student.studentsBooks}
+                      />}
+                      />
 
                       <PrivateRoute exact path='/profile' component={() => <Profile
                       auth={this.props.auth}

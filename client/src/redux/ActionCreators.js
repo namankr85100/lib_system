@@ -16,6 +16,31 @@ export const addBook = (book) => ({
   payload: book
 });
 
+export const getOnlyUserDataAction = (data) => ({
+  type: ActionTypes.GET_ONLY_USER_BOOK,
+  payload: data
+})
+
+export const getOnlyUserDataActionCreator = (userName) => (dispatch) => {
+  dispatch(booksLoading(true));
+  const bearer = 'Bearer '+ localStorage.getItem('token');
+  return fetch(baseUrl + `books/issued-by-friend/:${userName}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': "application/json",
+      "Authorization": bearer
+    }
+  }).then((response) => {
+      const data =  response.json();
+      return data;
+    })
+    .then((response) => {
+      alert('Book issued fetched successfully '+response);
+      return dispatch(getOnlyUserDataAction(response));
+    }).catch((error) => {
+      alert('Your book could not be fetched\nError: ' + error.message);
+    });
+}
 
 export const fetchStudentIssuedBooks = () => (dispatch) => {
   dispatch(booksLoading(true));
