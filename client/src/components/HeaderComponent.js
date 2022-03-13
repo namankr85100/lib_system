@@ -126,7 +126,7 @@ class Header extends Component{
                               <DropdownItem divider/>
                               <DropdownItem onClick={this.toggleNav} tag={Link} to="/student_book" >Issue My book</DropdownItem>
                               <DropdownItem divider/>
-                              <DropdownItem onClick={this.toggleNav} tag={Link} to="/issued_books" >List issued Books</DropdownItem>
+                              <DropdownItem onClick={this.toggleNav} tag={Link} to="/" >List issued Books</DropdownItem>
                             </DropdownMenu>
                           </Dropdown>
                           </NavItem>
@@ -157,6 +157,15 @@ class Header extends Component{
                                 </NavItem>
                             ):
                             (<div/>)
+                        }
+                        {/* for admin can see the student circle */}
+                        {
+                            (this.props.auth.isAuthenticated && this.props.auth.userinfo.admin) ? 
+                            ( <NavItem onClick={this.toggleNav} className="ml-2">
+                            <NavLink className="nav-link text-primary" to="/issued_books">
+                                  <span className="fa fa-history"/> Student circle history
+                             </NavLink>
+                             </NavItem>)  : (<div/>)
                         }
                          {
                             (this.props.auth.isAuthenticated&&this.props.auth.userinfo.admin)?(
