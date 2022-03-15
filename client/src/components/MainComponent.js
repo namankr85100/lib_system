@@ -63,7 +63,7 @@ const mapDispatchToProps = dispatch => ({
   // added student post book
   studentIssuedPostBook: (name, author, description, isbn, cat, copies, friend, issue_type) => (dispatch(postStudentBookToFriend(name, author, description, isbn, cat, copies, friend, issue_type))),
   fetchStudentIssuedBooks: () => {dispatch(fetchStudentIssuedBooks())},
-  getOnlyUserDataActionCreator: () => {dispatch(getOnlyUserDataActionCreator())}
+  getOnlyUserDataActionCreator: (username) => {dispatch(getOnlyUserDataActionCreator(username))}
 });
 
 class Main extends Component {
@@ -248,11 +248,14 @@ class Main extends Component {
 
                       {/* TODO: build fetchIssuedBooks by student to student */}
                       <PrivateRouteStudent exact path = '/issued_books' component= {()=> <StudentBookDetails
-                       books={this.props.books.books}
+                       books={this.props.student.userBook}
                       />}
                       />
                      
-                       {/* TODO: build fetchIssuedBooks by student to student */}
+                       {/* 
+                       TODO: build fetchIssuedBooks by student to student 
+                       Get only book in which username is present in friendName section
+                       */}
                        <PrivateRouteStudent exact path = '/issued_books_of_student' component= {()=> <StudentBookDetails
                        books={this.props.student.studentsBooks}
                       />}

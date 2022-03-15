@@ -8,7 +8,7 @@ export const studentIssuedBookAction = (data) => ({
 
 export const fetchStudentIssuedBooksAction = (data) => ({
   type: ActionTypes.FETCH_STUDENT_ISSUED,
-  data: data,
+  payload: data,
 })
 
 export const addBook = (book) => ({
@@ -24,7 +24,9 @@ export const getOnlyUserDataAction = (data) => ({
 export const getOnlyUserDataActionCreator = (userName) => (dispatch) => {
   dispatch(booksLoading(true));
   const bearer = 'Bearer '+ localStorage.getItem('token');
-  return fetch(baseUrl + `books/issued-by-friend/:${userName}`, {
+  if (!userName) return;
+  return fetch(baseUrl + `books/issued-by-friend/${userName}`, {
+    // return fetch(baseUrl + `books/issued-by-friend/Sheenam`, {
     method: 'GET',
     headers: {
       'Content-Type': "application/json",
@@ -35,10 +37,11 @@ export const getOnlyUserDataActionCreator = (userName) => (dispatch) => {
       return data;
     })
     .then((response) => {
-      alert('Book issued fetched successfully '+response);
+      console.log('Book issued fetched successfully '+response);
       return dispatch(getOnlyUserDataAction(response));
     }).catch((error) => {
-      alert('Your book could not be fetched\nError: ' + error.message);
+      console.log('Your book could not be fetched\nError: ' + error.message);
+      return ;
     });
 }
 
@@ -56,10 +59,10 @@ export const fetchStudentIssuedBooks = () => (dispatch) => {
       return data;
     })
     .then((response) => {
-      alert('Book fetched successfully '+response);
+      // console.log('Book fetched successfully '+response);
       return dispatch(fetchStudentIssuedBooksAction(response));
     }).catch((error) => {
-      alert('Your book could not be fetched\nError: ' + error.message);
+      // console.log('Your book could not be fetched\nError: ' + error.message);
     });
 };
 
@@ -93,11 +96,11 @@ export const postStudentBookToFriend = (name, author, description, isbn, cat, co
       throw error;
     }
   }).then(response => response.json())
-  .then(response => {alert('Book added successfully')
+  .then(response => {console.log('Book added successfully')
   return dispatch(studentIssuedBookAction(response));
 }).catch(error =>  { 
   console.log(error)
-  alert('Your book could not be added\nError: '+error.message); 
+  console.log('Your book could not be added\nError: '+error.message); 
 });
 
 };
@@ -133,9 +136,9 @@ export const postBook = (name, author, description, isbn, cat, floor, shelf, cop
             throw error;
       })
     .then(response => response.json())
-    .then(response => { alert('Book added successfully');
+    .then(response => { console.log('Book added successfully');
       return  dispatch(addBook(response));})
-    .catch(error =>  { alert('Your book could not be added\nError: '+error.message); });
+    .catch(error =>  { console.log('Your book could not be added\nError: '+error.message); });
 };
 
 export const editBook = (_id, name, author, description, isbn, cat, floor, shelf, copies) => (dispatch) => {
@@ -170,7 +173,7 @@ export const editBook = (_id, name, author, description, isbn, cat, floor, shelf
   .then(response => response.json())
   .then(response => (dispatch(editBookdispatch(response))))
   .catch(error =>  {  
-  alert('Your book could not be edited\nError: '+error.message); });
+  console.log('Your book could not be edited\nError: '+error.message); });
 };
 
 export const editPassword = (_id,username,password) => (dispatch) => {
@@ -200,10 +203,10 @@ export const editPassword = (_id,username,password) => (dispatch) => {
   let newCreds={username: username, password: password};
   localStorage.removeItem('creds');
   localStorage.setItem('creds', JSON.stringify(newCreds));
-  alert('Password changed successfully');
+  console.log('Password changed successfully');
   return dispatch(editPasswordDispatch(newCreds));})
 .catch(error =>  {  
-alert('Your password could not be changed\nError: '+error.message); });
+console.log('Your password could not be changed\nError: '+error.message); });
 }
 
 export const editUser = (_id, firstname, lastname, roll, email) => (dispatch) => {
@@ -240,7 +243,7 @@ email: email  };
     localStorage.setItem('userinfo', JSON.stringify(response));
     return dispatch(editUserdispatch(response));})
   .catch(error =>  {  
-  alert('Your profile could not be edited\nError: '+error.message+'\n May be someone has already registered with that Roll No. or Email'); });
+  console.log('Your profile could not be edited\nError: '+error.message+'\n May be someone has already registered with that Roll No. or Email'); });
 };
 
 export const deleteBook = (_id) => (dispatch) => {
@@ -267,7 +270,7 @@ export const deleteBook = (_id) => (dispatch) => {
     })
   .then(response => response.json())
   .then(response => dispatch(deleteBookdispatch(response)))
-  .catch(error =>  {alert('Your book could not be deleted\nError: '+error.message); });
+  .catch(error =>  {console.log('Your book could not be deleted\nError: '+error.message); });
 };
 
 export const fetchBooks = () => (dispatch) => {
@@ -424,7 +427,7 @@ export const loginUser = (creds) => (dispatch) => {
           }
           setTimeout(()=>{
             logoutUser();
-            alert('Your JWT token has expired. \nPlease log in again to continue.');
+            console.log('Your JWT token has expired. \nPlease log in again to continue.');
            },3600*1000);
           // Dispatch the success action
           dispatch(receiveLogin(response));
@@ -437,7 +440,7 @@ export const loginUser = (creds) => (dispatch) => {
       }
   })
   .catch(error => {
-    alert(error.message+'\n'+"Username and password didn't match");
+    console.log(error.message+'\n'+"Username and password didn't match");
      return dispatch(loginError(error.message));})
 };
 
@@ -466,8 +469,8 @@ export const registerUser = (creds) => (dispatch) => {
   .then(response => response.json())
   .then(response => {
       if (response.success) {
-          // If Registration was successful, alert the user
-          alert('Registration Successful');
+          // If Registration was successful, console.log the user
+          console.log('Registration Successful');
         }
       else {
           var error = new Error('Error ' + response.status);
@@ -475,7 +478,7 @@ export const registerUser = (creds) => (dispatch) => {
           throw error;
       }
   })
-  .catch(error => alert(error.message+'\n'+
+  .catch(error => console.log(error.message+'\n'+
       'May be someone has already registered with that username, email or Roll No.\nTry Entering a new username,email or Roll No. '))
 };
 
@@ -512,10 +515,10 @@ export const postIssue = (bookId,studentId) => (dispatch) => {
             throw error;
       })
     .then(response => response.json())
-    .then(response => { alert('Book issued successfully');
+    .then(response => { console.log('Book issued successfully');
       return  dispatch(addIssue(response));})
     .catch(error =>  {
-      alert('Book could not be issued\nError: '+error.message+'\n'+
+      console.log('Book could not be issued\nError: '+error.message+'\n'+
       'May be the student has already issued 3 books and not returned. Please return them first. \n'+
       'or the book may not available. You can wait for some days, until the book is returned to library.'); });
 };
@@ -543,10 +546,10 @@ export const returnIssue = (issueId) => (dispatch) => {
     })
   .then(response => response.json())
   .then(response => { 
-    alert('Book returned successfully');
+    console.log('Book returned successfully');
     return dispatch(returnBookdispatch(response));})
   .catch(error =>  {  
-  alert('The book could not be returned\nError: '+error.message); });
+  console.log('The book could not be returned\nError: '+error.message); });
 };
 
 export const fetchIssues = (student) => (dispatch) => {

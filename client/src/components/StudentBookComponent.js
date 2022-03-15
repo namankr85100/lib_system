@@ -151,7 +151,7 @@ render(){
                                 
                                 <Row className="form-group">
 
-                                <Label htmlFor="friend" md={3}> Friend Name</Label>
+                                <Label htmlFor="friend" md={3}> Friend Username: (emailId)</Label>
                                 {/* Added student  friend name */}
                                 <Col md={3}>
                                     <Control.text model=".friend" id="friend" name="friend"

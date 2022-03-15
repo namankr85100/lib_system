@@ -33,7 +33,7 @@ function RenderBook({book,isStudent}) {
         );
     else
         return(
-            <div></div>
+            <div><h1>No Data Present</h1></div>
         );
         }
 
