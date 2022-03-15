@@ -68,6 +68,7 @@ render(){
     <div className="container full">
     <div className="row justify-content-center heading">
     <div className="col-12">
+        <br></br>
   <h3 align="center">  Issue book</h3>
   </div>
     </div>

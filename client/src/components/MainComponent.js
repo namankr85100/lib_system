@@ -71,7 +71,8 @@ class Main extends Component {
   componentDidMount() {
     this.props.fetchBooks();
     this.props.fetchStudentIssuedBooks();
-    this.props.getOnlyUserDataActionCreator(this.props.auth.user.username)
+    const username = this.props.auth.user && this.props.auth.user.username;
+    username && this.props.getOnlyUserDataActionCreator(this.props.auth.user.username);
     if(this.props.auth.isAuthenticated){
       this.props.fetchIssues(!this.props.auth.userinfo.admin);
     }

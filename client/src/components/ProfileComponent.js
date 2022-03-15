@@ -47,8 +47,8 @@ render(){
 
         <div className="container mt-6 home text-center align-self-center">
             <div className="row text-center justify-content-center">
-            
             <Card className="heading">
+            <br></br>
                 
         <CardHeader><h3>My Profile</h3></CardHeader>
         <CardBody>
