@@ -147,9 +147,12 @@ render(){
                                         }}
                                      />
                                 </Col>
+                                </Row>
                                 
+                                <Row className="form-group">
+
+                                <Label htmlFor="friend" md={3}> Friend Name</Label>
                                 {/* Added student  friend name */}
-                                <Label htmlFor="friend" md={3}> friend name</Label>
                                 <Col md={3}>
                                     <Control.text model=".friend" id="friend" name="friend"
                                         placeholder="Name  of friend "
@@ -187,21 +190,11 @@ render(){
 
                             </Control.select>
                             </Col>
-                            <Col>
-                            <Label htmlFor="floor">Floor </Label>
-                            <Control.select defaultValue={0} model=".floor" id="floor" 
-                            className="form-control" >
-                              <option>0</option> <option>1</option>
-                              <option>2</option> <option>3</option>
-                              <option>4</option> <option>5</option>
-                              <option>6</option> <option>7</option>
-                              <option>8</option> 
-                            </Control.select>
-                            </Col>
+                           
 
                             {/* added issue type */}
                             <Col>
-                            <Label htmlFor=".issue_type">type </Label>
+                            <Label htmlFor=".issue_type">Issue Type </Label>
                             <Control.select defaultValue={0} model=".issue_type" id="issue_type" 
                             className="form-control" >
                               <option>sell</option> 
