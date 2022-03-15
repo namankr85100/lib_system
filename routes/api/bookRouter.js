@@ -40,7 +40,7 @@ bookRouter.use(bodyParser.json());
      // get all for admin purpose
      const userName = req.params.username;
      Student.find({
-        email: userName, 
+        friend: userName, 
      })
      .then((resp)=>{
          res.statusCode = 200;
