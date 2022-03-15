@@ -248,7 +248,7 @@ class Main extends Component {
 
                       {/* TODO: build fetchIssuedBooks by student to student */}
                       <PrivateRouteStudent exact path = '/issued_books' component= {()=> <StudentBookDetails
-                       books={this.props.student.userBook}
+                       books={this.props.books.books}
                       />}
                       />
                      
@@ -257,7 +257,7 @@ class Main extends Component {
                        Get only book in which username is present in friendName section
                        */}
                        <PrivateRouteStudent exact path = '/issued_books_of_student' component= {()=> <StudentBookDetails
-                       books={this.props.student.studentsBooks}
+                       books={this.props.student.userBook}
                       />}
                       />
 
