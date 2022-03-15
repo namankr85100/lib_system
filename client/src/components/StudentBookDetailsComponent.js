@@ -8,15 +8,15 @@ function RenderBook({book,isStudent}) {
        
        <CardHeader tag="h3">{book.name} &nbsp; &nbsp; &nbsp;&nbsp;
         </CardHeader>
-        <CardBody>
+        <CardBody color='red'>
           <CardTitle align="right"> - {book.author}</CardTitle>
           <CardText>
-              <b> Category: </b> {book.cat} <br/><br/>
-              <b> ISBN number: </b> {book.isbn} <br/><br/>
-              <b>Description: </b><br/> {book.description} <br/><br/>
-             <b> Copies available : </b> {book.copies}
-             <b> friend name : </b> {book.friend}
-             <b> issue type : </b> {book.issue_type}
+              <b>Category: </b> <h5>{book.cat}</h5> <br/>
+              <b> ISBN number: </b> <h5>{book.isbn}</h5> <br/>
+              <b>Description: </b><br/> <h5>{book.description}</h5> <br/>
+             <b> Copies available : </b> <h5>{book.copies}</h5> <br/>
+             <b> friend name : </b> <h5>{book.friend} </h5><br/>
+             <b> issue type : </b> <h5>{book.issue_type}</h5>  <br/>
       </CardText><br/>
         </CardBody>
         <CardFooter className="text-muted">
