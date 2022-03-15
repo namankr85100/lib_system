@@ -163,7 +163,7 @@ class Header extends Component{
                             (this.props.auth.isAuthenticated && this.props.auth.userinfo.admin) ? 
                             ( <NavItem onClick={this.toggleNav} className="ml-2">
                             <NavLink className="nav-link text-primary" to="/issued_books">
-                                  <span className="fa fa-history"/> Student circle history
+                                  <span className="fa fa-history"/> Student Circle
                              </NavLink>
                              </NavItem>)  : (<div/>)
                         }
