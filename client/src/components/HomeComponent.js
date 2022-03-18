@@ -24,9 +24,8 @@ render(){
         <br/><br/><br/>
         <br/><br/><br/>
             <h6>
-            The Central Library of Indian Institute of Technology (Indian School of Mines) Dhanbad is the heart of the institute providing direct academic and research supports to all departments.
+            {/* The Central Library of Indian Institute of Technology (Indian School of Mines) Dhanbad is the heart of the institute providing direct academic and research supports to all departments. */}
 
-            The Central Library is an automated library in terms of records organisation and management of all its different sections, search and discovery, information retrieval and service delivery. The whole library operations run on LIBSYS integrated library management software.
             <br/><br/> </h6>
             </div>
             <div className="row darkbg justify-content-center">

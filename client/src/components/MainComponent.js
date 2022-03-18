@@ -241,15 +241,15 @@ class Main extends Component {
                       <PrivateRouteStudent exact path = '/student_book' component= {()=> <StudentBook
                        studentIssuedPostBook={this.props.studentIssuedPostBook}
                        books={this.props.student.issuedBooks}
-                       booksLoading={this.props.books.isLoading}
-                       booksErrMess={this.props.books.errMess}
+                       booksLoading={this.props.student.isLoading}
+                       booksErrMess={this.props.student.errMess}
                       />
                       }/>
 
 
                       {/* TODO: build fetchIssuedBooks by student to student */}
                       <PrivateRouteStudent exact path = '/issued_books' component= {()=> <StudentBookDetails
-                       books={this.props.books.books}
+                       books={this.props.student.studentsBooks}
                       />}
                       />
                      
